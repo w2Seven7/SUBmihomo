@@ -86,17 +86,17 @@ NodeParam: &NodeParam {type: http, interval: 3600, health-check: {enable: true, 
 # 锚点 - 节点订阅
 proxy-providers: 
   机场名称1:
-    url: '机场订阅URl'
+    url: '订阅链接1'
     <<: *NodeParam
-    path: './proxy_providers/机场名称1.yaml'
+    path: './proxy_providers/中国国际机场.yaml'
     override:
-      additional-prefix: "[机场名称1] " # 为订阅节点添加机场名称前缀
+      additional-prefix: "[中国国际机场] " # 为订阅节点添加机场名称前缀
   机场名称2:
-    url: '机场订阅URl'
+    url: '订阅链接2'
     <<: *NodeParam
-    path: './proxy_providers/机场名称2.yaml'
+    path: './proxy_providers/牛逼plus.yaml'
     override:
-      additional-prefix: "[机场名称2] " # 为订阅节点添加机场名称前缀
+      additional-prefix: "[牛逼plus] " # 为订阅节点添加机场名称前缀
 
 # 锚点 - 节点筛选组
 FilterHK: &FilterHK '^(?=.*((?i)🇭🇰|香港|(\b(HK|Hong)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$'
@@ -107,74 +107,34 @@ FilterSG: &FilterSG '^(?=.*((?i)🇸🇬|新加坡|狮|(\b(SG|Singapore)(\d+)?\b
 FilterUS: &FilterUS '^(?=.*((?i)🇺🇸|美国|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|(\b(US|United States)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$'
 FilterUK: &FilterUK '^(?=.*((?i)🇬🇧|英国|伦敦|(\b(UK|United Kingdom)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$'
 FilterFR: &FilterFR '^(?=.*((?i)🇫🇷|法国|(\b(FR|France)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$'
-FilterDE: &FilterDE '^(?=.*((?i)🇩🇪|德国|(\b(DE|Germany)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$'
-FilterGame: &FilterGame '^(?=.*((?i)游戏|🎮|(\b(GAME)(\d+)?\b)))(?!.*((?i)回国|校园)).*$'
-FilterAll: &FilterAll '^(?=.*(.))(?!.*((?i)群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|(\b(USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author)(\d+)?\b|(\d{4}-\d{2}-\d{2}|\dG)))).*$'
-
+FilterAll: &FilterAll '^(?=.*((?i)香港|台湾|日本|韩国|新加坡|美国|英国|法国))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$'
 # 组参数锚点
 # 锚点 - 时延优选参数 [每 6 秒一次惰性健康检查，容差 20ms，时延超过 2 秒判定为失败，失败 3 次则自动触发健康检查]
 UrlTest: &UrlTest {type: url-test, interval: 6, tolerance: 20, lazy: true, url: 'http://www.google.com/blank.html', disable-udp: false, timeout: 2000, max-failed-times: 3, hidden: true, include-all-providers: true}
-# 锚点 - 故障转移参数 [每 6 秒一次惰性健康检查，时延超过 2 秒判定为失败，失败 3 次则自动触发健康检查]
-FallBack: &FallBack {type: fallback, interval: 6, lazy: true, url: 'http://www.google.com/blank.html', disable-udp: false, timeout: 2000, max-failed-times: 3, hidden: true, include-all-providers: true}
-# 锚点 - 负载均衡参数 [每 6 秒一次惰性健康检查，时延超过 2 秒判定为失败，失败 3 次则自动触发健康检查]
-LoadBalance: &LoadBalance {type: load-balance, interval: 6, lazy: true, url: 'http://www.google.com/blank.html', disable-udp: false, strategy: consistent-hashing, timeout: 2000, max-failed-times: 3, hidden: true, include-all-providers: true}
 # 锚点 - 规则参数 [每小时更新一次订阅规则，更新规则时使用直连]
 RuleProviders: &RuleProviders {type: http, behavior: classical, interval: 3600, format: yaml, proxy: DIRECT}
 
-# 组
+# 策略组
 proxy-groups: 
   - {name: 全球选择, type: select, include-all-providers: true, filter: *FilterAll}
-  - {name: 油管, type: select, proxies: [香港, 台湾, 日本, 韩国, 新国, 美国, 英国, 法国, 德国]}
-  - {name: 电报, type: select, proxies: [香港, 台湾, 日本, 韩国, 新国, 美国, 英国, 法国, 德国]}
-  - {name: TikTok, type: select, proxies: [香港, 台湾, 日本, 韩国, 新国, 美国, 英国, 法国, 德国]}
-  - {name: ChatGpt, type: select, proxies: [香港, 台湾, 日本, 韩国, 新国, 美国, 英国, 法国, 德国]}
-  - {name: 苹果商店, type: select, proxies: [DIRECT, 香港, 台湾, 日本, 韩国, 新国, 美国, 英国, 法国, 德国]}
-  - {name: 苹果账户, type: select, proxies: [DIRECT, 香港, 台湾, 日本, 韩国, 新国, 美国, 英国, 法国, 德国]}
-  - {name: 微软, type: select, proxies: [DIRECT, 香港, 台湾, 日本, 韩国, 新国, 美国, 英国, 法国, 德国]}
-  - {name: 兜底, type: fallback, proxies: [香港, 台湾, 日本, 韩国, 新国, 美国, 英国, 法国, 德国]}
-
-  - {name: 香港, type: select, proxies: [⏱香港时延优选组, 🚥香港故障转移组, 🎛香港负载均衡组]}
-  - {name: 台湾, type: select, proxies: [⏱台湾时延优选组, 🚥台湾故障转移组, 🎛台湾负载均衡组]}
-  - {name: 日本, type: select, proxies: [⏱日本时延优选组, 🚥日本故障转移组, 🎛日本负载均衡组]}
-  - {name: 韩国, type: select, proxies: [⏱韩国时延优选组, 🚥韩国故障转移组, 🎛韩国负载均衡组]}
-  - {name: 新国, type: select, proxies: [⏱新国时延优选组, 🚥新国故障转移组, 🎛新国负载均衡组]}
-  - {name: 美国, type: select, proxies: [⏱美国时延优选组, 🚥美国故障转移组, 🎛美国负载均衡组]}
-  - {name: 英国, type: select, proxies: [⏱英国时延优选组, 🚥英国故障转移组, 🎛英国负载均衡组]}
-  - {name: 法国, type: select, proxies: [⏱法国时延优选组, 🚥法国故障转移组, 🎛法国负载均衡组]}
-  - {name: 德国, type: select, proxies: [⏱德国时延优选组, 🚥德国故障转移组, 🎛德国负载均衡组]}
+  - {name: 油管, type: select, proxies: [香港, 台湾, 日本, 韩国, 新国, 美国, 英国, 法国]}
+  - {name: 电报, type: select, proxies: [香港, 台湾, 日本, 韩国, 新国, 美国, 英国, 法国,]}
+  - {name: TikTok, type: select, proxies: [香港, 台湾, 日本, 韩国, 新国, 美国, 英国, 法国]}
+  - {name: ChatGpt, type: select, proxies: [香港, 台湾, 日本, 韩国, 新国, 美国, 英国, 法国]}
+  - {name: 苹果商店, type: select, proxies: [DIRECT, 香港, 台湾, 日本, 韩国, 新国, 美国, 英国, 法国]}
+  - {name: 苹果账户, type: select, proxies: [DIRECT, 香港, 台湾, 日本, 韩国, 新国, 美国, 英国, 法国]}
+  - {name: 微软, type: select, proxies: [DIRECT, 香港, 台湾, 日本, 韩国, 新国, 美国, 英国, 法国]}
+  - {name: 兜底, type: fallback, proxies: [香港, 台湾, 日本, 韩国, 新国, 美国, 英国, 法国,]}
 
 # 时延优选组
-  - {name: ⏱香港时延优选组, <<: *UrlTest, filter: *FilterHK}
-  - {name: ⏱台湾时延优选组, <<: *UrlTest, filter: *FilterTW}
-  - {name: ⏱日本时延优选组, <<: *UrlTest, filter: *FilterJP}
-  - {name: ⏱韩国时延优选组, <<: *UrlTest, filter: *FilterKR}
-  - {name: ⏱新国时延优选组, <<: *UrlTest, filter: *FilterSG}
-  - {name: ⏱美国时延优选组, <<: *UrlTest, filter: *FilterUS}
-  - {name: ⏱英国时延优选组, <<: *UrlTest, filter: *FilterUK}
-  - {name: ⏱法国时延优选组, <<: *UrlTest, filter: *FilterFR}
-  - {name: ⏱德国时延优选组, <<: *UrlTest, filter: *FilterDE}
-
-# 故障转移组
-  - {name: 🚥香港故障转移组, <<: *FallBack, filter: *FilterHK}
-  - {name: 🚥台湾故障转移组, <<: *FallBack, filter: *FilterTW}
-  - {name: 🚥日本故障转移组, <<: *FallBack, filter: *FilterJP}
-  - {name: 🚥韩国故障转移组, <<: *FallBack, filter: *FilterKR}
-  - {name: 🚥新国故障转移组, <<: *FallBack, filter: *FilterSG}
-  - {name: 🚥美国故障转移组, <<: *FallBack, filter: *FilterUS}
-  - {name: 🚥英国故障转移组, <<: *FallBack, filter: *FilterUK}
-  - {name: 🚥法国故障转移组, <<: *FallBack, filter: *FilterFR}
-  - {name: 🚥德国故障转移组, <<: *FallBack, filter: *FilterDE}
-
-# 负载均衡组
-  - {name: 🎛香港负载均衡组, <<: *LoadBalance, filter: *FilterHK}
-  - {name: 🎛台湾负载均衡组, <<: *LoadBalance, filter: *FilterTW}
-  - {name: 🎛日本负载均衡组, <<: *LoadBalance, filter: *FilterJP}
-  - {name: 🎛韩国负载均衡组, <<: *LoadBalance, filter: *FilterKR}
-  - {name: 🎛新国负载均衡组, <<: *LoadBalance, filter: *FilterSG}
-  - {name: 🎛美国负载均衡组, <<: *LoadBalance, filter: *FilterUS}
-  - {name: 🎛英国负载均衡组, <<: *LoadBalance, filter: *FilterUK}
-  - {name: 🎛法国负载均衡组, <<: *LoadBalance, filter: *FilterFR}
-  - {name: 🎛德国负载均衡组, <<: *LoadBalance, filter: *FilterDE}
+  - {name: 香港, <<: *UrlTest, filter: *FilterHK}
+  - {name: 台湾, <<: *UrlTest, filter: *FilterTW}
+  - {name: 日本, <<: *UrlTest, filter: *FilterJP}
+  - {name: 韩国, <<: *UrlTest, filter: *FilterKR}
+  - {name: 新国, <<: *UrlTest, filter: *FilterSG}
+  - {name: 美国, <<: *UrlTest, filter: *FilterUS}
+  - {name: 英国, <<: *UrlTest, filter: *FilterUK}
+  - {name: 法国, <<: *UrlTest, filter: *FilterFR}
 
 # 订阅规则
 rule-providers:
