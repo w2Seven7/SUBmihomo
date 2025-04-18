@@ -9,13 +9,13 @@
 # MATCH	匹配所有剩余流量，通常用于兜底规则 	MATCH, PROXY代理
 
 #启用规则
-DOMAIN-KEYWORD, cdn.xdmdesigns.org
-DOMAIN-KEYWORD, mushroomtrack.com
 DOMAIN-SUFFIX, fourhoi.com
 DOMAIN-SUFFIX, nineyu.com
 DOMAIN-SUFFIX, surrit.com
-DOMAIN-KEYWORD, missav.recombee.com
 DOMAIN-SUFFIX, client-rapi-missav.recombee.com
+DOMAIN-KEYWORD, cdn.xdmdesigns.org
+DOMAIN-KEYWORD, mushroomtrack.com
+DOMAIN-KEYWORD, missav.recombee.com
 
 #未启用规则
 #DOMAIN-KEYWORD, avtoday.io
