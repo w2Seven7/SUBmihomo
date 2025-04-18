@@ -1,46 +1,24 @@
 # 内容：AA平台-国内直连
 # 数量：完善中 未统计
 
-# DOMAIN	精确匹配某个域名 	DOMAIN, www.google.com, PROXY
-# DOMAIN-SUFFIX	匹配域名的后缀 	DOMAIN-SUFFIX, google.com, PROXY
-# DOMAIN-KEYWORD	匹配包含指定关键字的域名 	DOMAIN-KEYWORD, google, PROXY
-# IP-CIDR	匹配某个 IP 范围 	IP-CIDR, 8.8.8.0/24, PROXY
-# GEOIP	根据 IP 所属地理区域匹配 	GEOIP, CN, DIRECT
-# MATCH	匹配所有剩余流量，通常用于兜底规则 	MATCH, PROXY
+# DOMAIN	精确匹配某个域名 	DOMAIN, www.google.com, PROXY代理
+# DOMAIN-SUFFIX	匹配域名的后缀 	DOMAIN-SUFFIX, google.com, PROXY代理
+# DOMAIN-KEYWORD	匹配包含指定关键字的域名 	DOMAIN-KEYWORD, google, PROXY代理
+# IP-CIDR	匹配某个 IP 范围 	IP-CIDR, 8.8.8.0/24, PROXY代理
+# GEOIP	根据 IP 所属地理区域匹配 	GEOIP, CN, DIRECT直连
+# MATCH	匹配所有剩余流量，通常用于兜底规则 	MATCH, PROXY代理
 
-#规则
-DOMAIN,api.githubcopilot.com
-DOMAIN,api.groq.com
-DOMAIN,api.together.xyz
-DOMAIN,bard.google.com
-DOMAIN,console.groq.com
-DOMAIN,copilot-proxy.githubusercontent.com
-DOMAIN,gemini.google.com
-DOMAIN,generativelanguage.googleapis.com
-DOMAIN,sydney.bing.com
-DOMAIN-SUFFIX,ai.azure.com
-DOMAIN-SUFFIX,anthropic.com
-DOMAIN-SUFFIX,auth0.com
-DOMAIN-SUFFIX,bard.google.com
-DOMAIN-SUFFIX,chatgpt.com
-DOMAIN-SUFFIX,claude.ai
-DOMAIN-SUFFIX,client-api.arkoselabs.com
-DOMAIN-SUFFIX,copilot.cloud.microsoft
-DOMAIN-SUFFIX,copilot.microsoft.com
-DOMAIN-SUFFIX,events.statsigapi.net
-DOMAIN-SUFFIX,featuregates.org
-DOMAIN-SUFFIX,gemini.google.com
-DOMAIN-SUFFIX,grazie.ai
-DOMAIN-SUFFIX,grazie.aws.intellij.net
-DOMAIN-SUFFIX,identrust.com
-DOMAIN-SUFFIX,intercom.io
-DOMAIN-SUFFIX,intercomcdn.com
-DOMAIN-SUFFIX,makersuite.google.com
-DOMAIN-SUFFIX,meta.ai
-DOMAIN-SUFFIX,mistral.ai
-DOMAIN-SUFFIX,oaistatic.com
-DOMAIN-SUFFIX,oaiusercontent.com
-DOMAIN-SUFFIX,openai.com
-DOMAIN-SUFFIX,openaiapi-site.azureedge.net
-DOMAIN-SUFFIX,perplexity.ai
-DOMAIN-SUFFIX,sora.com
+#启用规则
+DOMAIN-KEYWORD, cdn.xdmdesigns.org, DIRECT
+DOMAIN-KEYWORD, mushroomtrack.com, DIRECT
+DOMAIN-SUFFIX, fourhoi.com, DIRECT
+DOMAIN-SUFFIX, nineyu.com, DIRECT
+DOMAIN-SUFFIX, surrit.com, DIRECT
+DOMAIN-KEYWORD, missav.recombee.com, DIRECT
+DOMAIN-SUFFIX, client-rapi-missav.recombee.com, DIRECT
+
+#未启用规则
+#DOMAIN-KEYWORD, avtoday.io, 兜底
+#DOMAIN-SUFFIX, missav123.com, 兜底
+#DOMAIN-KEYWORD, jable.tv, 兜底
+#DOMAIN-KEYWORD, njable.com, 兜底
