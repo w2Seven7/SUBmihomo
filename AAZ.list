@@ -1,0 +1,46 @@
+# 内容：AA平台-国内直连
+# 数量：完善中 未统计
+
+# DOMAIN	精确匹配某个域名 	DOMAIN, www.google.com, PROXY
+# DOMAIN-SUFFIX	匹配域名的后缀 	DOMAIN-SUFFIX, google.com, PROXY
+# DOMAIN-KEYWORD	匹配包含指定关键字的域名 	DOMAIN-KEYWORD, google, PROXY
+# IP-CIDR	匹配某个 IP 范围 	IP-CIDR, 8.8.8.0/24, PROXY
+# GEOIP	根据 IP 所属地理区域匹配 	GEOIP, CN, DIRECT
+# MATCH	匹配所有剩余流量，通常用于兜底规则 	MATCH, PROXY
+
+#规则
+DOMAIN,api.githubcopilot.com
+DOMAIN,api.groq.com
+DOMAIN,api.together.xyz
+DOMAIN,bard.google.com
+DOMAIN,console.groq.com
+DOMAIN,copilot-proxy.githubusercontent.com
+DOMAIN,gemini.google.com
+DOMAIN,generativelanguage.googleapis.com
+DOMAIN,sydney.bing.com
+DOMAIN-SUFFIX,ai.azure.com
+DOMAIN-SUFFIX,anthropic.com
+DOMAIN-SUFFIX,auth0.com
+DOMAIN-SUFFIX,bard.google.com
+DOMAIN-SUFFIX,chatgpt.com
+DOMAIN-SUFFIX,claude.ai
+DOMAIN-SUFFIX,client-api.arkoselabs.com
+DOMAIN-SUFFIX,copilot.cloud.microsoft
+DOMAIN-SUFFIX,copilot.microsoft.com
+DOMAIN-SUFFIX,events.statsigapi.net
+DOMAIN-SUFFIX,featuregates.org
+DOMAIN-SUFFIX,gemini.google.com
+DOMAIN-SUFFIX,grazie.ai
+DOMAIN-SUFFIX,grazie.aws.intellij.net
+DOMAIN-SUFFIX,identrust.com
+DOMAIN-SUFFIX,intercom.io
+DOMAIN-SUFFIX,intercomcdn.com
+DOMAIN-SUFFIX,makersuite.google.com
+DOMAIN-SUFFIX,meta.ai
+DOMAIN-SUFFIX,mistral.ai
+DOMAIN-SUFFIX,oaistatic.com
+DOMAIN-SUFFIX,oaiusercontent.com
+DOMAIN-SUFFIX,openai.com
+DOMAIN-SUFFIX,openaiapi-site.azureedge.net
+DOMAIN-SUFFIX,perplexity.ai
+DOMAIN-SUFFIX,sora.com
