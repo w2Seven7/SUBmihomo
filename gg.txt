@@ -53,61 +53,44 @@ overwrite_original_rules=true
 
 备份02
 
-
-
-
-
-
-
-
-
-
-
 ;1、域名组
-ruleset=去广告,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/AdvertisingLite/AdvertisingLite.yaml
-ruleset=反劫持,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Hijacking/Hijacking.yaml
-ruleset=YouTube,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/YouTube/YouTube.yaml
-ruleset=Telegram,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Telegram/Telegram.yaml
-ruleset=GitHub,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GitHub/GitHub.yaml
-ruleset=TikTok,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/TikTok/TikTok.yaml
-ruleset=OpenAi,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/OpenAI/OpenAI.yaml
-ruleset=Google,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Google/Google.yaml
-ruleset=微软,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Microsoft/Microsoft.yaml
-ruleset=网易,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/NetEaseMusic/NetEaseMusic.yaml
-ruleset=中国,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/China/China.yaml
+ruleset=局域网,https://raw.githubusercontent.com/w2Seven7/ios_rule_script/refs/heads/master/rule/Loon/Lan/Lan.list
+ruleset=反劫持,https://raw.githubusercontent.com/w2Seven7/ios_rule_script/refs/heads/master/rule/Loon/Hijacking/Hijacking.list
+ruleset=YouTube,https://raw.githubusercontent.com/w2Seven7/ios_rule_script/refs/heads/master/rule/Clash/YouTube/YouTube.list
+ruleset=Telegram,https://raw.githubusercontent.com/w2Seven7/ios_rule_script/refs/heads/master/rule/Clash/Telegram/Telegram.list
+ruleset=GitHub,https://raw.githubusercontent.com/w2Seven7/ios_rule_script/refs/heads/master/rule/Clash/GitHub/GitHub.list
+ruleset=TikTok,https://raw.githubusercontent.com/w2Seven7/ios_rule_script/refs/heads/master/rule/Clash/TikTok/TikTok.list
+ruleset=OpenAi,https://raw.githubusercontent.com/w2Seven7/ios_rule_script/refs/heads/master/rule/Loon/OpenAI/OpenAI.list
+ruleset=Google,https://raw.githubusercontent.com/w2Seven7/ios_rule_script/refs/heads/master/rule/Clash/Google/Google.list
+ruleset=网易,https://raw.githubusercontent.com/w2Seven7/ios_rule_script/refs/heads/master/rule/Loon/NetEaseMusic/NetEaseMusic.list
+ruleset=直链,https://raw.githubusercontent.com/w2Seven7/ios_rule_script/refs/heads/master/rule/Loon/Direct/Direct.list
 ruleset=省流,https://raw.githubusercontent.com/w2Seven7/SUBmihomo/refs/heads/main/SL.list
-ruleset=歪果,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Proxy/Proxy.yaml
-ruleset=Apple,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Apple/Apple.yaml
-ruleset=Wechat,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/WeChat/WeChat.yaml
-ruleset=Tencent,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Tencent/Tencent.yaml
-ruleset=BiliBili,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BiliBili/BiliBili.yaml
-ruleset=ChinaMedia,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMedia/ChinaMedia.yaml
-ruleset=AliPay,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/AliPay/AliPay.yaml
-ruleset=Alibaba,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Alibaba/Alibaba.yaml
-ruleset=MicrosoftEdge,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/MicrosoftEdge/MicrosoftEdge.yaml
+ruleset=微软,https://raw.githubusercontent.com/w2Seven7/ios_rule_script/refs/heads/master/rule/Clash/Microsoft/Microsoft.list
+ruleset=歪果,https://raw.githubusercontent.com/w2Seven7/ios_rule_script/refs/heads/master/rule/Loon/Proxy/Proxy.list
+ruleset=Apple,https://raw.githubusercontent.com/w2Seven7/ios_rule_script/refs/heads/master/rule/Loon/Apple/Apple.list
+ruleset=Wechat,https://raw.githubusercontent.com/w2Seven7/ios_rule_script/refs/heads/master/rule/Loon/WeChat/WeChat.list
+ruleset=Tencent,https://raw.githubusercontent.com/w2Seven7/ios_rule_script/refs/heads/master/rule/Loon/Tencent/Tencent.list
+ruleset=BiliBili,https://raw.githubusercontent.com/w2Seven7/ios_rule_script/refs/heads/master/rule/Loon/BiliBili/BiliBili.list
+ruleset=ChinaMedia,https://raw.githubusercontent.com/w2Seven7/ios_rule_script/refs/heads/master/rule/Loon/ChinaMedia/ChinaMedia.list
 ruleset=兜底,[]FINAL
 
 ;2、组（域名组-节点组）
-custom_proxy_group=全球`select`[]香港`[]台湾`[]日本`[]韩国`[]美国`[]英国`[]法国`[]新国
-custom_proxy_group=YouTube`select`[]香港`[]全球`[]台湾`[]日本`[]韩国`[]美国`[]英国`[]法国`[]新国
-custom_proxy_group=Telegram`select`[]香港`[]全球`[]台湾`[]日本`[]韩国`[]美国`[]英国`[]法国`[]新国
-custom_proxy_group=GitHub`select`[]香港`[]全球`[]台湾`[]日本`[]韩国`[]美国`[]英国`[]法国`[]新国
-custom_proxy_group=TikTok`select`[]日本`[]全球`[]香港`[]台湾`[]韩国`[]美国`[]英国`[]法国`[]新国
-custom_proxy_group=OpenAi`select`[]台湾`[]全球`[]日本`[]韩国`[]美国`[]英国`[]法国`[]新国
-custom_proxy_group=Google`select`[]香港`[]全球`[]台湾`[]日本`[]韩国`[]美国`[]英国`[]法国`[]新国
-custom_proxy_group=微软`select`[]DIRECT`[]REJECT`[]全球`[]香港`[]台湾`[]日本`[]韩国`[]美国`[]英国`[]法国`[]新国
-custom_proxy_group=网易`select`DIRECT
-custom_proxy_group=中国`select`DIRECT
-custom_proxy_group=歪果`select`[]全球`[]香港`[]台湾`[]日本`[]韩国`[]美国`[]英国`[]法国`[]新国
-custom_proxy_group=省流`select`[]DIRECT`[]REJECT
-custom_proxy_group=Apple`select`[]DIRECT`[]全球`[]香港`[]台湾`[]日本`[]韩国`[]美国`[]英国`[]法国`[]新国
-custom_proxy_group=Wechat`select`DIRECT
-custom_proxy_group=Tencent`select`DIRECT
-custom_proxy_group=BiliBili`select`DIRECT
-custom_proxy_group=ChinaMedia`select`DIRECT
-custom_proxy_group=AliPay`select`DIRECT
-custom_proxy_group=Alibaba`select`DIRECT
-custom_proxy_group=MicrosoftEdge`select`DIRECT
+custom_proxy_group=全球`select`[]香港`[]台湾`[]日本`[]韩国`[]美国`[]英国`[]法国`[]新加坡
+custom_proxy_group=YouTube`select`[]香港`[]台湾`[]日本`[]韩国`[]美国`[]英国`[]法国`[]新加坡
+custom_proxy_group=Telegram`select`[]香港`[]台湾`[]日本`[]韩国`[]美国`[]英国`[]法国`[]新加坡
+custom_proxy_group=GitHub`select`[]香港`[]台湾`[]日本`[]韩国`[]美国`[]英国`[]法国`[]新加坡
+custom_proxy_group=TikTok`select`[]日本`[]香港`[]台湾`[]韩国`[]美国`[]英国`[]法国`[]新加坡
+custom_proxy_group=OpenAi`select`[]台湾`[]日本`[]韩国`[]美国`[]英国`[]法国`[]新加坡
+custom_proxy_group=Google`select`[]香港`[]台湾`[]日本`[]韩国`[]美国`[]英国`[]法国`[]新加坡
+custom_proxy_group=直链`select`[]DIRECT
+custom_proxy_group=省流`select`[]DIRECT
+custom_proxy_group=微软`select`[]DIRECT`[]香港`[]台湾`[]日本`[]韩国`[]美国`[]英国`[]法国`[]新加坡
+custom_proxy_group=歪果`select`[]香港`[]台湾`[]日本`[]韩国`[]美国`[]英国`[]法国`[]新加坡
+custom_proxy_group=Apple`select`[]DIRECT
+custom_proxy_group=Wechat`select`[]DIRECT
+custom_proxy_group=Tencent`select`[]DIRECT
+custom_proxy_group=BiliBili`select`[]DIRECT
+custom_proxy_group=ChinaMedia`select`[]DIRECT
 
 ;3、节点组
 custom_proxy_group=香港`url-test`(香港|HK|HongKong|🇭🇰|HongKong)`http://www.gstatic.com/generate_204`180,5,100
@@ -115,11 +98,12 @@ custom_proxy_group=台湾`url-test`(台湾|台灣|TW)`http://www.gstatic.com/gen
 custom_proxy_group=日本`url-test`(日本|JP|川日|东京|大阪|泉日|埼玉|沪日|深日|🇯🇵|Japan)`http://www.gstatic.com/generate_204`180,5,100
 custom_proxy_group=韩国`url-test`(韩国|韓國|KR|首尔|春川|🇰🇷|Korea)`http://www.gstatic.com/generate_204`180,5,100
 custom_proxy_group=美国`url-test`(美|US|纽约|凤凰城|硅谷|洛杉|圣何塞|圣克拉|西雅|芝加|🇺🇸)`http://www.gstatic.com/generate_204`180,5,100
-custom_proxy_group=新国`url-test`(新国|SG|坡|狮城|🇸🇬|Singapore)`http://www.gstatic.com/generate_204`180,5,100
+custom_proxy_group=新加坡`url-test`(新加坡|SG|新国|狮城|🇸🇬|Singapore)`http://www.gstatic.com/generate_204`180,5,100
 custom_proxy_group=英国`url-test`(英国|🇬🇧|伦敦|UK)`http://www.gstatic.com/generate_204`180,5,100
 custom_proxy_group=法国`url-test`(法国|🇫🇷|巴黎|FR)`http://www.gstatic.com/generate_204`180,5,100
-custom_proxy_group=兜底`select`[]全球`[]DIRECT`[]香港`[]台湾`[]日本`[]韩国`[]美国`[]英国`[]法国`[]新国
+custom_proxy_group=兜底`select`[]DIRECT`[]香港`[]台湾`[]日本`[]韩国`[]美国`[]英国`[]法国`[]新加坡
 
 ;4、启用规则集
 enable_rule_generator=true
 overwrite_original_rules=true
+
