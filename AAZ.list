@@ -8,6 +8,12 @@
 # GEOIP	根据 IP 所属地理区域匹配 	GEOIP, CN, DIRECT直连
 # MATCH	匹配所有剩余流量，通常用于兜底规则 	MATCH, PROXY代理
 
+#未启用规则
+#DOMAIN-KEYWORD, avtoday.io
+#DOMAIN-SUFFIX, missav123.com
+#DOMAIN-KEYWORD, jable.tv
+#DOMAIN-KEYWORD, njable.com
+
 #启用规则
 DOMAIN-SUFFIX, fourhoi.com
 DOMAIN-SUFFIX, nineyu.com
@@ -17,8 +23,4 @@ DOMAIN-KEYWORD, cdn.xdmdesigns.org
 DOMAIN-KEYWORD, mushroomtrack.com
 DOMAIN-KEYWORD, missav.recombee.com
 
-#未启用规则
-#DOMAIN-KEYWORD, avtoday.io
-#DOMAIN-SUFFIX, missav123.com
-#DOMAIN-KEYWORD, jable.tv
-#DOMAIN-KEYWORD, njable.com
+
