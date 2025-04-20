@@ -1,4 +1,4 @@
-# mihomo 配置 引用配置件——————————————————————0420备份件
+# mihomo 配置 引用配置件20250414
 # 日期：2025-03-30 19:55:16
 # 配置作者：https://t.me/iKeLee
 # 适用版本：所有使用 mihomo 核心的程序
@@ -35,7 +35,7 @@ geox-url:
 
 profile:
   store-selected: true
-  store-fake-ip: false
+  store-fake-ip: true
 
 sniffer:
   enable: true
@@ -137,20 +137,10 @@ proxy-groups:
 
 # 订阅规则
 rule-providers:
-
-  fakeip-filter:
-    type: http
-    behavior: domain
-    format: mrs
-    path: ./rules/fakeip-filter.mrs
-    url: "https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo-ruleset/fakeip-filter.mrs"
-    interval: 86400
-  cn:
-    type: http
-    behavior: domain
-    format: mrs
-    path: ./rules/cn.mrs
-    url: "https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo-ruleset/cn.mrs"
+  LAN:
+    <<: *RuleProviders
+    path: './rules/Lan.yaml'
+    url: 'https://kelee.one/Tool/Clash/Rule/LAN_SPLITTER.yaml'
   Direct:
     <<: *RuleProviders
     path: './rules/Direct.yaml'
@@ -218,9 +208,8 @@ rule-providers:
     
 # 规则指向
 rules:
-  - RULE-SET,fakeip-filter,REJECT,no-resolve
-  - RULE-SET,cn,REJECT,no-resolve
-  - RULE-SET, Direct, DIRECT,no-resolve
+  - RULE-SET, LAN, DIRECT, no-resolve
+  - RULE-SET, Direct, DIRECT, no-resolve
   - RULE-SET, Proxy, 兜底
   - RULE-SET, YouTube, 油管
   - RULE-SET, Telegram, 电报
@@ -229,13 +218,21 @@ rules:
   - RULE-SET, GitHub, 全球
   - RULE-SET, Microsoft, 微软
   - RULE-SET, Google, 兜底
-  - RULE-SET, ChinaDownloadCDN, DIRECT,no-resolve
-  - RULE-SET, iCloudChina, DIRECT,no-resolve
-  - RULE-SET, ApplePushNotificationService, DIRECT,no-resolve
-  - RULE-SET, AppleSoftwareUpdates, DIRECT,no-resolve
+  - RULE-SET, ChinaDownloadCDN, DIRECT, no-resolve
+  - RULE-SET, iCloudChina, DIRECT, no-resolve
+  - RULE-SET, ApplePushNotificationService, DIRECT, no-resolve
+  - RULE-SET, AppleSoftwareUpdates, DIRECT, no-resolve
+  - DOMAIN-KEYWORD, jable.tv, 兜底
+  - DOMAIN-KEYWORD, njable.com, 兜底
+  - DOMAIN-KEYWORD, mushroomtrack.com, DIRECT
+  - DOMAIN-SUFFIX, fourhoi.com, 兜底
+  - DOMAIN-SUFFIX, nineyu.com, 兜底
+  - DOMAIN-SUFFIX, missav123.com, 兜底
+  - DOMAIN-SUFFIX, surrit.com, 兜底
+  - DOMAIN-KEYWORD, missav.recombee.com, DIRECT
+  - DOMAIN-SUFFIX, client-rapi-missav.recombee.com, DIRECT
   - RULE-SET, AppleID, 苹果账户
   - RULE-SET, AppStore, 苹果商店
-  - RULE-SET, ESET_China, DIRECT,no-resolve
-  - GEOIP,CN,DIRECT,no-resolve
-  - MATCH,全球,no-resolve
-
+  - RULE-SET, ESET_China, DIRECT, no-resolve
+  - GEOIP,CN,DIRECT, no-resolve
+  - MATCH,全球, no-resolve
