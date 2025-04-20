@@ -28,7 +28,7 @@ external-controller: 0.0.0.0:9090
 # external-ui-url: 'https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip'
 
 geox-url:
-  geoip: 'https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/geoip.dat'
+  # geoip: 'https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/geoip.dat'
   # geosite: 'https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/geosite.dat'
   mmdb: 'https://geodata.kelee.one/Country-Masaiki.mmdb'
   asn: 'https://geodata.kelee.one/GeoLite2-ASN-P3TERX.mmdb'
@@ -74,11 +74,11 @@ dns:
     - "*"
     - +.lan
   default-nameserver:
-    - 223.5.5.5
-    - 223.6.6.6
+    - 8.8.8.8
+    - 8.8.4.4
   nameserver:
-    - https://223.5.5.5/dns-query#h3=true
-    - https://223.6.6.6/dns-query#h3=true
+    - https://8.8.8.8/dns-query#h3=true
+    - https://8.8.4.4.16/dns-query#h3=true
 
 # 锚点 - 节点订阅的参数 [每小时更新一次订阅节点，每 6 秒一次健康检查]
 NodeParam: &NodeParam {type: http, interval: 3600, health-check: {enable: true, url: 'http://www.google.com/blank.html', interval: 6}}
@@ -106,10 +106,6 @@ FilterAll: &FilterAll '^(?=.*((?i)香港|台湾|日本|韩国|新加坡|美国|�
 # 组参数锚点
 # 锚点 - 时延优选参数 [每 6 秒一次惰性健康检查，容差 20ms，时延超过 2 秒判定为失败，失败 3 次则自动触发健康检查]
 UrlTest: &UrlTest {type: url-test, interval: 6, tolerance: 20, lazy: true, url: 'http://www.google.com/blank.html', disable-udp: false, timeout: 2000, max-failed-times: 3, hidden: true, include-all-providers: true}
-# 锚点 - 故障转移参数 [每 6 秒一次惰性健康检查，时延超过 2 秒判定为失败，失败 3 次则自动触发健康检查]
-FallBack: &FallBack {type: fallback, interval: 6, lazy: true, url: 'http://www.google.com/blank.html', disable-udp: false, timeout: 2000, max-failed-times: 3, hidden: true, include-all-providers: true}
-# 锚点 - 负载均衡参数 [每 6 秒一次惰性健康检查，时延超过 2 秒判定为失败，失败 3 次则自动触发健康检查]
-LoadBalance: &LoadBalance {type: load-balance, interval: 6, lazy: true, url: 'http://www.google.com/blank.html', disable-udp: false, strategy: consistent-hashing, timeout: 2000, max-failed-times: 3, hidden: true, include-all-providers: true}
 # 锚点 - 规则参数 [每小时更新一次订阅规则，更新规则时使用直连]
 RuleProviders: &RuleProviders {type: http, behavior: classical, interval: 3600, format: yaml, proxy: DIRECT}
 
@@ -120,10 +116,11 @@ proxy-groups:
   - {name: 电报, type: select, proxies: [香港, 台湾, 日本, 韩国, 新国, 美国, 英国, 法国,]}
   - {name: TikTok, type: select, proxies: [日本, 香港, 台湾, 韩国, 新国, 美国, 英国, 法国]}
   - {name: ChatGpt, type: select, proxies: [台湾, 香港, 日本, 韩国, 新国, 美国, 英国, 法国]}
+  - {name: GitHub, type: select, proxies: [香港, 台湾, 日本, 韩国, 新国, 美国, 英国, 法国]}
   - {name: 苹果商店, type: select, proxies: [DIRECT, 香港, 台湾, 日本, 韩国, 新国, 美国, 英国, 法国]}
   - {name: 苹果账户, type: select, proxies: [DIRECT, 香港, 台湾, 日本, 韩国, 新国, 美国, 英国, 法国]}
   - {name: 微软, type: select, proxies: [DIRECT, 香港, 台湾, 日本, 韩国, 新国, 美国, 英国, 法国]}
-  - {name: 兜底, type: fallback, proxies: [香港, 台湾, 日本, 韩国, 新国, 美国, 英国, 法国]}
+  - {name: 兜底, type: select, proxies: [香港, 台湾, 日本, 韩国, 新国, 美国, 英国, 法国]}
 
 # 时延优选组
   - {name: 香港, <<: *UrlTest, filter: *FilterHK}
@@ -145,10 +142,6 @@ rule-providers:
     <<: *RuleProviders
     path: './rules/Direct.yaml'
     url: 'https://kelee.one/Tool/Clash/Rule/Direct.yaml'
-  Proxy:
-    <<: *RuleProviders
-    path: './rules/Proxy.yaml'
-    url: 'https://kelee.one/Tool/Clash/Rule/Proxy.yaml'
   YouTube:
     <<: *RuleProviders
     path: './rules/TikTok.yaml'
@@ -208,31 +201,33 @@ rule-providers:
     
 # 规则指向
 rules:
-  - RULE-SET, LAN, DIRECT, no-resolve
-  - RULE-SET, Direct, DIRECT, no-resolve
-  - RULE-SET, Proxy, 兜底
+  - DOMAIN-KEYWORD, avtoday.io, 兜底 #avtoday
+  - DOMAIN-KEYWORD, cdn.xdmdesigns.org, DIRECT #avtoday
+  - DOMAIN-KEYWORD, jable.tv, 兜底 #javle
+  - DOMAIN-KEYWORD, njable.com, 兜底 #javle
+  - DOMAIN-SUFFIX, www.bing.com, DIRECT
+  - DOMAIN-KEYWORD, mushroomtrack.com, DIRECT 
+  - DOMAIN-SUFFIX, fourhoi.com, DIRECT #missav
+  - DOMAIN-SUFFIX, nineyu.com, DIRECT #missav
+  - DOMAIN-SUFFIX, missav123.com, 兜底 #missav
+  - DOMAIN-SUFFIX, surrit.com, DIRECT #missav
+  - DOMAIN-KEYWORD, missav.recombee.com, DIRECT #missav
+  - DOMAIN-SUFFIX, client-rapi-missav.recombee.com, DIRECT #missav
+  - RULE-SET, LAN, DIRECT
+  - RULE-SET, Direct, DIRECT
   - RULE-SET, YouTube, 油管
   - RULE-SET, Telegram, 电报
   - RULE-SET, TikTok, TikTok
   - RULE-SET, AI, ChatGpt
-  - RULE-SET, GitHub, 全球
+  - RULE-SET, GitHub, GitHub
   - RULE-SET, Microsoft, 微软
   - RULE-SET, Google, 兜底
-  - RULE-SET, ChinaDownloadCDN, DIRECT, no-resolve
-  - RULE-SET, iCloudChina, DIRECT, no-resolve
-  - RULE-SET, ApplePushNotificationService, DIRECT, no-resolve
-  - RULE-SET, AppleSoftwareUpdates, DIRECT, no-resolve
-  - DOMAIN-KEYWORD, jable.tv, 兜底
-  - DOMAIN-KEYWORD, njable.com, 兜底
-  - DOMAIN-KEYWORD, mushroomtrack.com, DIRECT
-  - DOMAIN-SUFFIX, fourhoi.com, 兜底
-  - DOMAIN-SUFFIX, nineyu.com, 兜底
-  - DOMAIN-SUFFIX, missav123.com, 兜底
-  - DOMAIN-SUFFIX, surrit.com, 兜底
-  - DOMAIN-KEYWORD, missav.recombee.com, DIRECT
-  - DOMAIN-SUFFIX, client-rapi-missav.recombee.com, DIRECT
-  - RULE-SET, AppleID, 苹果账户
-  - RULE-SET, AppStore, 苹果商店
+  - RULE-SET, ChinaDownloadCDN, DIRECT
+  - RULE-SET, iCloudChina, DIRECT
+  - RULE-SET, ApplePushNotificationService, DIRECT
+  - RULE-SET, AppleSoftwareUpdates, DIRECT
+  - RULE-SET, AppleID, DIRECT
+  - RULE-SET, AppStore, DIRECT
   - RULE-SET, ESET_China, DIRECT, no-resolve
   - GEOIP,CN,DIRECT, no-resolve
-  - MATCH,全球, no-resolve
+  - MATCH,兜底
