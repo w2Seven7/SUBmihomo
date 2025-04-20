@@ -1,0 +1,245 @@
+# 全局配置 适用于mihome内核+防止DNS泄漏
+mode: rule #选择mihome远行状态
+ipv6: false #ipv6状态
+log-level: debug #日志输出级别
+allow-lan: false #允许局域网连接
+mixed-port: 7890 #混合代理端口
+unified-delay: true # 开启统一延迟时
+tcp-concurrent: false #TCP并发
+# WEBUI外部控制
+external-controller: 127.0.0.1:9090 #ui界面访问端口
+external-ui: metacubexd #ui界面在本地文件夹的命名
+external-ui-url: "https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip" #使用的ui界面的url地址
+keep-alive-interval: 3600
+#使用ruleset，不使用geodata
+geodata-mode: false
+# 缓存 
+profile:
+  store-selected: true
+  # 储存 API 对策略组的选择
+  store-fake-ip: false
+  # 储存 fakeip 映射表，本配置不使用fakeip
+  
+# 域名嗅探
+#sniffer:
+  #enable: true
+  #force-dns-mapping: true
+  #parse-pure-ip: true
+  #override-destination: true
+  #sniff:
+    #HTTP:
+      #ports: [80, 8080-8880]
+      #override-destination: true
+    #TLS:
+      #ports: [443, 8443]
+    #QUIC:
+      #ports: [443, 8443]
+  #force-domain:
+    #- +.v2ex.com
+  #skip-domain:
+    #- Mijia Cloud
+    
+#TUN设置
+#tun:
+  #enable: true
+  #stack: system
+  #dns-hijack:
+    #- any:53
+  #auto-route: true
+  #auto-detect-interface: true
+    
+# DNS设置————————————————————————————————————————————————————————
+dns:
+  enable: true
+  listen: 0.0.0.0:1053
+  ipv6: false
+  prefer-h3: false
+  nameserver:
+    - https://223.5.5.5/dns-query#h3=true&香港
+    - https://223.6.6.6/dns-query#h3=true&香港
+  nameserver-policy:
+    "rule-set:reject": rcode://success
+    "rule-set:bilibili": https://223.5.5.5/dns-query#h3=true&香港
+    "rule-set:OpeanAI": https://8.8.8.8/dns-query#h3=true&香港
+    "rule-set:github": https://8.8.8.8/dns-query#h3=true&香港
+    "rule-set:youtube": https://8.8.8.8/dns-query#h3=true&香港
+    "rule-set:google": https://8.8.8.8/dns-query#h3=true&香港
+    "rule-set:google-cn": https://8.8.8.8/dns-query#h3=true&香港
+    "rule-set:tiktok": https://8.8.8.8/dns-query#h3=true&香港
+    "rule-set:microsoft": https://8.8.8.8/dns-query#h3=true&香港
+    "rule-set:microsoft-cn": https://8.8.8.8/dns-query#h3=true&香港
+    "rule-set:apple-cn": https://8.8.8.8/dns-query#h3=true&香港
+    "rule-set:direct":
+      - https://223.5.5.5/dns-query#h3=true
+      - https://223.6.6.6/dns-query#h3=true
+  proxy-server-nameserver:
+      - https://8.8.8.8/dns-query
+      - https://223.5.5.5/dns-query
+
+# 节点配置————————————————————————————————————————————————————————
+UrlTest: &UrlTest {type: url-test, interval: 6, tolerance: 20, lazy: true, url: 'http://www.google.com/blank.html', disable-udp: false, timeout: 2000, max-failed-times: 3, hidden: true, include-all-providers: true}
+# 以上时延优选参数 [每 6 秒一次惰性健康检查，容差 20ms，时延超过 2 秒判定为失败，失败 3 次则自动触发健康检查]
+RuleProviders: &RuleProviders {type: http, behavior: classical, interval: 3600, format: yaml, proxy: DIRECT}
+# 以上规则参数 [每小时更新一次订阅规则，更新规则时使用直连]
+
+# 节点订阅（机场订阅）————————————————————————————————————————————————————————————————————————————————————————————————————————————
+proxy-providers:
+  中国国际订阅:
+    type: http
+    url: "请输入订阅url"
+    path: ./中国国际订阅.yaml
+    exclude-filter: "官网|回国|国内|国际|移动|联通|电信|泰国|俄罗斯|乌克兰|土耳其|德国|阿根廷|下载|更新|测试|拉斯维加斯"
+    health-check:
+      enable: false
+      url: https://1.1.1.1
+    override:
+      additional-prefix: "[中国国际订阅] " # 为订阅节点添加机场名称前缀
+      udp: true
+# 独立的出站代理
+proxies:
+  - { name: "dns劫持", type: dns}
+
+
+# 节点筛选————————————————————————————————————————————————————————
+FilterHK: &FilterHK '^(?=.*((?i)🇭🇰|香港|(\b(HK|Hong)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$'
+FilterTW: &FilterTW '^(?=.*((?i)🇹🇼|台湾|(\b(TW|Tai|Taiwan)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$'
+FilterJP: &FilterJP '^(?=.*((?i)🇯🇵|日本|川日|东京|大阪|泉日|埼玉|(\b(JP|Japan)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$'
+FilterKR: &FilterKR '^(?=.*((?i)🇰🇷|韩国|韓|首尔|(\b(KR|Korea)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$'
+FilterSG: &FilterSG '^(?=.*((?i)🇸🇬|新加坡|狮|(\b(SG|Singapore)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$'
+FilterUS: &FilterUS '^(?=.*((?i)🇺🇸|美国|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|(\b(US|United States)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$'
+FilterUK: &FilterUK '^(?=.*((?i)🇬🇧|英国|伦敦|(\b(UK|United Kingdom)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$'
+FilterFR: &FilterFR '^(?=.*((?i)🇫🇷|法国|(\b(FR|France)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$'
+FilterAll: &FilterAll '^(?=.*((?i)香港|台湾|日本|韩国|新加坡|美国|英国|法国))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$'
+
+# 策略组————————————————————————————————————————————————————————
+proxy-groups: 
+  - {name: 全球选择, type: select, include-all-providers: true, filter: *FilterAll}
+  - {name: 油管策略, type: select, proxies: [香港, 台湾, 日本, 韩国, 新国, 美国, 英国, 法国]}
+  - {name: 电报策略, type: select, proxies: [香港, 台湾, 日本, 韩国, 新国, 美国, 英国, 法国,]}
+  - {name: TikTok, type: select, proxies: [日本, 香港, 台湾, 韩国, 新国, 美国, 英国, 法国]}
+  - {name: OpeanAI, type: select, proxies: [台湾, 香港, 日本, 韩国, 新国, 美国, 英国, 法国]}
+  - {name: 谷歌策略, type: select, proxies: [香港, 台湾, 日本, 韩国, 新国, 美国, 英国, 法国,]}
+  - {name: 微软策略, type: select, proxies: [DIRECT, 香港, 台湾, 日本, 韩国, 新国, 美国, 英国, 法国]}
+  - {name: 苹果服务, type: select, proxies: [DIRECT, 香港, 台湾, 日本, 韩国, 新国, 美国, 英国, 法国]}
+# 时延优选组
+  - {name: 香港, <<: *UrlTest, filter: *FilterHK}
+  - {name: 台湾, <<: *UrlTest, filter: *FilterTW}
+  - {name: 日本, <<: *UrlTest, filter: *FilterJP}
+  - {name: 韩国, <<: *UrlTest, filter: *FilterKR}
+  - {name: 新国, <<: *UrlTest, filter: *FilterSG}
+  - {name: 美国, <<: *UrlTest, filter: *FilterUS}
+  - {name: 英国, <<: *UrlTest, filter: *FilterUK}
+  - {name: 法国, <<: *UrlTest, filter: *FilterFR}
+  - {name: 兜底策略, type: select, proxies: [香港, 台湾, 日本, 韩国, 新国, 美国, 英国, 法国]}
+
+# 订阅规则（远程规则）————————————————————————————————————————————————————————
+rule-providers:
+  direct:
+    type: http
+    behavior: domain
+    format: mrs
+    url: "https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/cn.mrs"
+  GeoIP:
+    type: http
+    behavior: ipcidr
+    format: mrs
+    url: "https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/cnip.mrs"
+  reject:
+    type: http
+    behavior: domain
+    format: mrs
+    url: "https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/ads.mrs"
+  OpeanAI:
+    type: http
+    behavior: domain
+    format: mrs
+    url: "https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/ai.mrs"
+  telegramip:
+    type: http
+    behavior: ipcidr
+    format: mrs
+    url: "https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/telegramip.mrs"
+  youtube:
+    type: http
+    behavior: domain
+    format: mrs
+    url: "https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/youtube.mrs"
+  bilibili:
+    type: http
+    behavior: domain
+    format: mrs
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bilibili.mrs"
+  github:
+    type: http
+    behavior: classical
+    format: yaml
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GitHub/GitHub_No_Resolve.yaml"
+  google:
+    type: http
+    behavior: domain
+    format: mrs
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs"
+  google-cn:
+    type: http
+    behavior: domain
+    format: mrs
+    url: "https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/google-cn.mrs"
+  googlefcm:
+    type: http
+    behavior: domain
+    format: mrs
+    url: "https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/googlefcm.mrs"
+  tiktok:
+    type: http
+    behavior: domain
+    format: mrs
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tiktok.mrs"
+  microsoft:
+    type: http
+    behavior: domain
+    format: mrs
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.mrs"
+  microsoft-cn:
+    type: http
+    behavior: domain
+    format: mrs
+    url: "https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/microsoft-cn.mrs"
+  apple-cn:
+    type: http
+    behavior: domain
+    format: mrs
+    url: "https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo-ruleset/apple-cn.mrs"
+
+# 规则指向————————————————————————————————————————————————————————
+rules:
+  - DST-PORT,53,dns劫持 #dns劫持53端口
+  - OR,((DST-PORT,853),(DOMAIN-KEYWORD,stun),(DOMAIN-KEYWORD,turn)),REJECT # 屏蔽853端口、WebRTC
+  - AND,((DST-PORT,443),(NETWORK,UDP),(RULE-SET,youtube)),REJECT # 屏蔽YouTube quic
+  - AND,((DST-PORT,443),(NETWORK,UDP),(RULE-SET,bilibili)),REJECT # 屏蔽Bilibili quic
+  - RULE-SET,reject,REJECT
+
+  - DOMAIN-KEYWORD, cdn.xdmdesigns.org, DIRECT,no-resolve # 省流
+  - DOMAIN-KEYWORD, mushroomtrack.com, DIRECT,no-resolve  # 省流
+  - DOMAIN-SUFFIX, fourhoi.com, DIRECT,no-resolve # 省流
+  - DOMAIN-SUFFIX, nineyu.com, DIRECT,no-resolve # 省流
+  - DOMAIN-SUFFIX, surrit.com, DIRECT,no-resolve # 省流
+  - DOMAIN-KEYWORD, missav.recombee.com, DIRECT,no-resolve # 省流
+  - DOMAIN-SUFFIX, client-rapi-missav.recombee.com, DIRECT,no-resolve # 省流
+
+  - RULE-SET,youtube,油管策略
+  - RULE-SET,telegramip,电报策略,no-resolve
+  - RULE-SET,OpeanAI,OpeanAI
+  - RULE-SET,github,香港
+  - RULE-SET,tiktok,TikTok
+  - RULE-SET,bilibili,REJECT
+  - DOMAIN-SUFFIX,xn--ngstr-lra8j.com,香港
+  - DOMAIN-SUFFIX,services.googleapis.cn,香港
+  - OR,((RULE-SET,googlefcm),(DST-PORT,5228-5230)),谷歌策略
+  - RULE-SET,google,谷歌策略
+  - RULE-SET,google-cn,谷歌策略
+  - RULE-SET,microsoft,微软策略,no-resolve
+  - RULE-SET,microsoft-cn,微软策略,no-resolve
+  - RULE-SET,apple-cn,REJECT,no-resolve
+  - RULE-SET,direct,DIRECT
+  - RULE-SET,GeoIP,DIRECT,no-resolve
+  - MATCH,兜底策略
